@@ -56,7 +56,7 @@ export const createHero = asyncHandler(async (req, res) => {
 
   const savedHero = await newHero.save();
 
-  res.status(201);
+  res.status(201).json(savedHero);
 });
 
 export const updateHero = asyncHandler(async (req, res) => {
@@ -106,6 +106,7 @@ export const updateHeroImages = asyncHandler(async (req, res) => {
     res.status(404).json({ message: "Hero not found" });
   }
 });
+
 export const deleteHero = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
