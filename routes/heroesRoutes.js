@@ -9,6 +9,7 @@ import {
   updateHero,
   getHeroById,
   deleteHero,
+  updateHeroImages,
 } from "../controllers/heroesController.js";
 
 const router = express.Router();
@@ -37,6 +38,8 @@ router.post("/", upload.single("image"), asyncHandler(createHero));
 router.get("/:id", asyncHandler(getHeroById));
 
 router.put("/:id", upload.single("image"), asyncHandler(updateHero));
+
+router.put("/:id/images", asyncHandler(updateHeroImages));
 
 router.delete("/:id", asyncHandler(deleteHero));
 

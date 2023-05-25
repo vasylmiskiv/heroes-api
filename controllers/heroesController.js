@@ -56,7 +56,7 @@ export const createHero = asyncHandler(async (req, res) => {
 
   const savedHero = await newHero.save();
 
-  res.status(201).json(savedHero);
+  res.status(201);
 });
 
 export const updateHero = asyncHandler(async (req, res) => {
@@ -65,9 +65,9 @@ export const updateHero = asyncHandler(async (req, res) => {
   const { nickname, real_name, origin_description, superpowers, catch_phrase } =
     req.body;
 
-  const imagePath = `${req.protocol}://${req.get("host")}/assets/${
-    req.file.filename
-  }`;
+  const imagePath = req.file
+    ? `${req.protocol}://${req.get("host")}/assets/${req.file.filename}`
+    : null;
 
   const hero = await Hero.findById(id);
 
@@ -77,7 +77,10 @@ export const updateHero = asyncHandler(async (req, res) => {
     hero.origin_description = origin_description;
     hero.superpowers = superpowers;
     hero.catch_phrase = catch_phrase;
-    hero.image.push(imagePath);
+
+    if (imagePath) {
+      hero.image.push(imagePath);
+    }
 
     const updatedHero = await hero.save();
 
@@ -87,6 +90,22 @@ export const updateHero = asyncHandler(async (req, res) => {
   }
 });
 
+export const updateHeroImages = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { image } = req.body;
+
+  const hero = await Hero.findById(id);
+
+  if (hero) {
+    hero.image = image;
+
+    const updatedHero = await hero.save();
+
+    res.status(200).json(updatedHero);
+  } else {
+    res.status(404).json({ message: "Hero not found" });
+  }
+});
 export const deleteHero = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
@@ -95,7 +114,7 @@ export const deleteHero = asyncHandler(async (req, res) => {
   if (hero) {
     await hero.remove();
 
-    res.status(200).json({ message: `Hero has been removed` });
+    res.status(200);
   } else {
     res.status(404).json({ message: "Hero not found" });
   }
