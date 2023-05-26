@@ -27,4 +27,4 @@ If you have yarn:
 ```sh
 yarn start
 ```
-- Open in the browser http://localhost:5173
+- After that you need to close or download this client repo https://github.com/vasylmiskiv/heroes-client
