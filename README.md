@@ -27,4 +27,4 @@ If you have yarn:
 ```sh
 yarn start
 ```
-- After that you need to close or download this client repo https://github.com/vasylmiskiv/heroes-client
+- After that you need to clone or download this client repo https://github.com/vasylmiskiv/heroes-client
