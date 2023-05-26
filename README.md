@@ -27,3 +27,4 @@ If you have yarn:
 ```sh
 yarn start
 ```
+- Open in the browser http://localhost:5173
