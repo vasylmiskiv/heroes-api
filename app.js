@@ -1,14 +1,8 @@
 import express from "express";
-import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import multer from "multer";
-import helmet from "helmet";
-import morgan from "morgan";
-import path from "path";
 import colors from "colors";
-import { fileURLToPath } from "url";
 import heroesRoutes from "./routes/heroesRoutes.js";
 
 dotenv.config();
@@ -21,18 +15,11 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use("/assets", express.static(path.join(__dirname, "public/assets")));
-
-app.use("/heroes", heroesRoutes);
+app.use("/api/heroes", heroesRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send("Something went wrong!");
+  res.status(500).send("Something went wrong");
 });
 
 mongoose

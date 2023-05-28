@@ -37,12 +37,14 @@ export const getHeroById = asyncHandler(async (req, res) => {
 });
 
 export const createHero = asyncHandler(async (req, res) => {
-  const { nickname, real_name, origin_description, superpowers, catch_phrase } =
-    req.body;
-
-  const imagePath = `${req.protocol}://${req.get("host")}/assets/${
-    req.file.filename
-  }`;
+  const {
+    nickname,
+    real_name,
+    origin_description,
+    superpowers,
+    catch_phrase,
+    image,
+  } = req.body;
 
   const newHero = new Hero({
     nickname,
@@ -50,9 +52,8 @@ export const createHero = asyncHandler(async (req, res) => {
     origin_description,
     superpowers,
     catch_phrase,
+    image,
   });
-
-  newHero.image.push(imagePath);
 
   const savedHero = await newHero.save();
 
@@ -62,12 +63,14 @@ export const createHero = asyncHandler(async (req, res) => {
 export const updateHero = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  const { nickname, real_name, origin_description, superpowers, catch_phrase } =
-    req.body;
-
-  const imagePath = req.file
-    ? `${req.protocol}://${req.get("host")}/assets/${req.file.filename}`
-    : null;
+  const {
+    nickname,
+    real_name,
+    origin_description,
+    superpowers,
+    catch_phrase,
+    image,
+  } = req.body;
 
   const hero = await Hero.findById(id);
 
@@ -77,9 +80,8 @@ export const updateHero = asyncHandler(async (req, res) => {
     hero.origin_description = origin_description;
     hero.superpowers = superpowers;
     hero.catch_phrase = catch_phrase;
-
-    if (imagePath) {
-      hero.image.push(imagePath);
+    if (image) {
+      hero.image.push(image);
     }
 
     const updatedHero = await hero.save();
